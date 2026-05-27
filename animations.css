@@ -1,0 +1,434 @@
+/* ============================================================
+   SPIRILUMEN — animations.css
+   Every @keyframe definition + the rules that apply them,
+   organized by component / purpose.
+   ============================================================
+
+   INDEX
+   ─────────────────────────────────────────────────────────
+   1.  sunRotate            — Generic sun spin (cursor, logo, marquee)
+   2.  logoSpin             — Nav logo spin variant
+   3.  logoGlow             — Logo name drop-shadow pulse
+   4.  nebulaDrift          — Floating nebula blobs
+   5.  innerPulse           — Brand sphere inner core radial pulse
+   6.  emblemBreathe        — Hero wreath SVG breath
+   7.  ringRotate           — Hero emblem outer rings rotation
+   8.  floatPlanetOrbit     — Hero floating planetary symbols orbit
+   9.  moonGlow             — Moon phase strip centre glow pulse
+  10.  riseUp               — Hero content staggered fade-up entrance
+  11.  scrollPulse          — Scroll indicator line drop
+  12.  lightShaft           — Hero divine light shaft opacity breathe
+  13.  orbitSpin            — About section orbital rings spin
+  14.  wreathSpin           — About brand sphere wreath rotation
+  15.  starTwinkle          — Testimonial star rating twinkle
+  16.  ctaRingPulse         — CTA section ripple rings expand+fade
+  17.  dividerTwinkle       — Sacred divider separator symbols pulse
+  18.  marqueeScroll        — Marquee strip continuous slide
+  19.  marqueeGlyphRotate   — Marquee sun glyph spin
+  20.  footerSymbolsGlow    — Footer celestial symbols glow breathe
+  21.  heroSpiralDraw       — Spiral path draw-in (JS-managed via CSS)
+  22.  spiralBreathe        — Spiral opacity breathe (post-draw)
+  23.  focalPulse           — Spiral focal glow expand-contract
+  24.  coreFlicker          — Spiral core dot radius flicker
+   ─────────────────────────────────────────────────────────
+*/
+
+
+/* ============================================================
+   1. SUN ROTATE
+   Used on: #cur-sun svg, .mq-sun, .s-div-c svg (via JS class)
+   ============================================================ */
+@keyframes sunRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Cursor sun — continuous 8s slow rotation */
+#cur-sun svg {
+  animation: sunRotate 8s linear infinite;
+}
+
+/* Cursor sun faster on hover */
+#cur-sun.hov svg {
+  animation: sunRotate 3s linear infinite;
+}
+
+/* Marquee glyph sun spin */
+.mq-sun {
+  animation: sunRotate 6s linear infinite;
+}
+
+/* Sacred divider mini-sun */
+.s-div-c svg {
+  animation: sunRotate 12s linear infinite;
+}
+
+
+/* ============================================================
+   2. LOGO SPIN
+   Used on: .logo-sun-svg (nav logo icon)
+   ============================================================ */
+@keyframes logoSpin {
+  to { transform: rotate(360deg); }
+}
+
+.logo-sun-svg {
+  animation: logoSpin 20s linear infinite;
+}
+
+
+/* ============================================================
+   3. LOGO GLOW
+   Used on: .logo-name (nav brand text drop-shadow breathe)
+   ============================================================ */
+@keyframes logoGlow {
+  0%,  100% { filter: drop-shadow(0 0  4px rgba(167, 139, 250, .4)); }
+  50%        { filter: drop-shadow(0 0 12px rgba(232, 121, 249, .6)); }
+}
+
+.logo-name {
+  animation: logoGlow 4s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   4. NEBULA DRIFT
+   Used on: .n1 – .n5 (fixed background nebula blobs)
+   ============================================================ */
+@keyframes nebulaDrift {
+  0%,  100% { transform: translate(0, 0) scale(1); }
+  33%        { transform: translate(25px, -18px) scale(1.04); }
+  66%        { transform: translate(-18px, 25px) scale(.97); }
+}
+
+.n1 { animation: nebulaDrift 22s ease-in-out infinite; }
+.n2 { animation: nebulaDrift 16s ease-in-out infinite reverse; }
+.n3 { animation: nebulaDrift 28s ease-in-out infinite; }
+.n4 { animation: nebulaDrift 18s ease-in-out infinite; }
+.n5 { animation: nebulaDrift 35s ease-in-out infinite; }
+
+
+/* ============================================================
+   5. INNER PULSE
+   Used on: .bs-inner::after (About sphere inner golden radial glow)
+   ============================================================ */
+@keyframes innerPulse {
+  0%,  100% { transform: scale(1);   opacity: .7; }
+  50%        { transform: scale(1.4); opacity: .3; }
+}
+
+.bs-inner::after {
+  animation: innerPulse 5s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   6. EMBLEM BREATHE
+   Used on: .emblem-wreath (Hero background wreath SVG)
+   ============================================================ */
+@keyframes emblemBreathe {
+  0%,  100% { transform: scale(1);    opacity: .07; }
+  50%        { transform: scale(1.03); opacity: .10; }
+}
+
+.emblem-wreath {
+  animation: emblemBreathe 8s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   7. RING ROTATE
+   Used on: .emblem-ring1 (CW), .emblem-ring2 (CCW)
+   ============================================================ */
+@keyframes ringRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.emblem-ring1 { animation: ringRotate  55s linear infinite; }
+.emblem-ring2 { animation: ringRotate  80s linear infinite reverse; }
+
+
+/* ============================================================
+   8. FLOAT PLANET ORBIT
+   Used on: .fp (eight floating planetary symbol divs in hero)
+   Each element sets its own CSS variables: --fa, --fr, --fd
+   ============================================================ */
+@keyframes floatPlanetOrbit {
+  from {
+    transform:
+      rotate(var(--fa, 0deg))
+      translateX(var(--fr, 170px))
+      rotate(calc(var(--fa, 0deg) * -1));
+  }
+  to {
+    transform:
+      rotate(calc(var(--fa, 0deg) + 360deg))
+      translateX(var(--fr, 170px))
+      rotate(calc((var(--fa, 0deg) + 360deg) * -1));
+  }
+}
+
+.fp {
+  animation: floatPlanetOrbit var(--fd, 16s) linear infinite;
+}
+
+
+/* ============================================================
+   9. MOON GLOW
+   Used on: .moon-strip span:nth-child(3) (full moon emoji)
+   ============================================================ */
+@keyframes moonGlow {
+  0%,  100% {
+    filter: drop-shadow(0 0 12px rgba(240, 200, 106, .9));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(240, 200, 106, 1))
+            drop-shadow(0 0 56px rgba(240, 200, 106, .5));
+  }
+}
+
+.moon-strip span:nth-child(3) {
+  animation: moonGlow 3s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   10. RISE UP
+   Used on: .hero-h, .hero-sub, .hero-btns, .moon-strip, .scroll-b
+   Staggered delays create sequential hero entrance.
+   ============================================================ */
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-h      { animation: riseUp 1s  .2s forwards; }
+.hero-sub    { animation: riseUp 1s  .4s forwards; }
+.hero-btns   { animation: riseUp 1s  .6s forwards; }
+.moon-strip  { animation: riseUp 1s  .8s forwards; }
+.scroll-b    { animation: riseUp 1s 1.4s forwards; }
+
+
+/* ============================================================
+   11. SCROLL PULSE (line drop)
+   Used on: .scroll-p::after (animated vertical gradient line)
+   ============================================================ */
+@keyframes scrollPulse {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+.scroll-p::after {
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   12. LIGHT SHAFT
+   Used on: .hero::before (thin vertical shaft) and
+            .hero::after  (large radial halo above hero)
+   ============================================================ */
+@keyframes lightShaft {
+  0%,  100% { opacity: .65; }
+  50%        { opacity: 1;   }
+}
+
+.hero::before,
+.hero::after {
+  animation: lightShaft 6s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   13. ORBIT SPIN
+   Used on: .bs-orb (.bo1 CW, .bo2 CCW — About section rings)
+   Each ring sets --od (duration) and --odir (direction)
+   ============================================================ */
+@keyframes orbitSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.bs-orb {
+  animation: orbitSpin var(--od, 25s) linear infinite var(--odir, normal);
+}
+
+
+/* ============================================================
+   14. WREATH SPIN
+   Used on: .bs-wreath (About brand sphere outer wreath SVG)
+   ============================================================ */
+@keyframes wreathSpin {
+  to { transform: rotate(360deg); }
+}
+
+.bs-wreath {
+  animation: wreathSpin 40s linear infinite;
+}
+
+
+/* ============================================================
+   15. STAR TWINKLE
+   Used on: .tc-stars span (testimonial star ratings)
+   ============================================================ */
+@keyframes starTwinkle {
+  0%,  100% { opacity: 1;   }
+  50%        { opacity: .55; }
+}
+
+.tc-stars span {
+  animation: starTwinkle 2.5s ease-in-out infinite;
+}
+
+/* Stagger each star using nth-child index */
+.tc-stars span:nth-child(1) { animation-delay: 0s;    }
+.tc-stars span:nth-child(2) { animation-delay: .15s;  }
+.tc-stars span:nth-child(3) { animation-delay: .30s;  }
+.tc-stars span:nth-child(4) { animation-delay: .45s;  }
+.tc-stars span:nth-child(5) { animation-delay: .60s;  }
+
+
+/* ============================================================
+   16. CTA RING PULSE (ripple expand)
+   Used on: .cr (.cr1–.cr4 staggered)
+   ============================================================ */
+@keyframes ctaRingPulse {
+  0%   { transform: translate(-50%, -50%) scale(.7);    opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.15);  opacity: 0; }
+}
+
+.cr {
+  animation: ctaRingPulse var(--cd, 3.5s) ease-out infinite;
+}
+
+
+/* ============================================================
+   17. DIVIDER TWINKLE
+   Used on: .s-div-c span (the ☽ and ☾ flanking the sun icon)
+   ============================================================ */
+@keyframes dividerTwinkle {
+  0%,  100% { opacity: .3;  transform: scale(.8); }
+  50%        { opacity: .8;  transform: scale(1.1); }
+}
+
+.s-div-c span {
+  animation: dividerTwinkle 3s ease-in-out infinite;
+}
+
+.s-div-c span:nth-child(2) { animation-delay: .5s; }
+
+
+/* ============================================================
+   18. MARQUEE SCROLL
+   Used on: .mq-track (the repeating service-name ticker)
+   ============================================================ */
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.mq-track {
+  animation: marqueeScroll 32s linear infinite;
+}
+
+
+/* ============================================================
+   19. MARQUEE GLYPH ROTATE
+   (Alias — .mq-sun already covered by sunRotate rule #1
+    but listed here for documentation completeness)
+   ============================================================ */
+/* See rule 1 — sunRotate applied to .mq-sun */
+
+
+/* ============================================================
+   20. FOOTER SYMBOLS GLOW
+   Used on: .ft-syms (☽ ✦ ☾ ♄ ☉ row in footer brand column)
+   ============================================================ */
+@keyframes footerSymbolsGlow {
+  0%,  100% { opacity: .3; }
+  50%        { opacity: .5; }
+}
+
+.ft-syms {
+  animation: footerSymbolsGlow 4s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   21. HERO SPIRAL — DRAW IN  (JS-managed)
+   The JS inline-sets strokeDasharray and uses a CSS transition
+   on stroke-dashoffset to create the initial draw-in effect.
+   The @keyframe below is the fallback/reference definition.
+   ============================================================ */
+@keyframes heroSpiralDraw {
+  from { stroke-dashoffset: var(--sp-len); }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* NOTE: The JS overrides this with a transition, not an animation,
+   for precise timing control. The keyframe is kept as documentation. */
+
+
+/* ============================================================
+   22. SPIRAL BREATHE  (applied by JS after draw-in completes)
+   Used on: #heroSpiralPath — subtle stroke-opacity oscillation
+   ============================================================ */
+@keyframes spiralBreathe {
+  0%,  100% { stroke-opacity: 0.62; }
+  50%        { stroke-opacity: 0.35; }
+}
+
+/* JS applies this dynamically:
+   path.style.animation = 'spiralBreathe 14s ease-in-out infinite'; */
+
+
+/* ============================================================
+   23. FOCAL PULSE  (applied by JS after draw-in completes)
+   Used on: #heroSpiralGlow — the large radial gradient circle
+   that pulses at the spiral's centre, creating a singularity illusion.
+   ============================================================ */
+@keyframes focalPulse {
+  0%,  100% { r: 22; opacity: 0.85; }
+  50%        { r: 38; opacity: 0.25; }
+}
+
+/* JS applies:  glow.style.animation = 'focalPulse 6s ease-in-out infinite'; */
+
+
+/* ============================================================
+   24. CORE FLICKER  (applied by JS after draw-in completes)
+   Used on: #heroSpiralCore — tiny 3px dot at spiral centre
+   ============================================================ */
+@keyframes coreFlicker {
+  0%,  100% { r: 3;   opacity: 0.95; }
+  35%        { r: 5;   opacity: 0.60; }
+  70%        { r: 2.5; opacity: 1;    }
+}
+
+/* JS applies:  core.style.animation = 'coreFlicker 4s ease-in-out infinite'; */
+
+
+/* ============================================================
+   MOBILE — Hide custom cursor elements entirely
+   (JS also skips init; this is a CSS safety net for
+    any edge cases where elements flash before JS runs)
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  #cur-sun,
+  #cur-trail,
+  #trailC {
+    display: none !important;
+  }
+
+  #heroSpiralSvg {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   SPIRAL TERMINAL PULSE — removed.
+   r attribute animation is not supported in Safari.
+   Focal glow is handled entirely by JS (spFocalPulse).
+   ============================================================ */

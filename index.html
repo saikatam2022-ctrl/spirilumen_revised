@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spirilumen — Journey Towards Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Upright:wght@300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="animations.css">
+</head>
+<body>
+
+<!-- ═══ CUSTOM CURSOR ═══ -->
+<div id="cur-sun">
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="24" y1="2"  x2="24" y2="10" stroke="#f0c86a" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="24" y1="38" x2="24" y2="46" stroke="#f0c86a" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="2"  y1="24" x2="10" y2="24" stroke="#f0c86a" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="38" y1="24" x2="46" y2="24" stroke="#f0c86a" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="7.5"  y1="7.5"  x2="13.2" y2="13.2" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+    <line x1="34.8" y1="34.8" x2="40.5" y2="40.5" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+    <line x1="40.5" y1="7.5"  x2="34.8" y2="13.2" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+    <line x1="13.2" y1="34.8" x2="7.5"  y2="40.5" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="24" cy="24" r="7"   stroke="#f0c86a" stroke-width="1.5" fill="rgba(240,200,106,0.12)"/>
+    <circle cx="24" cy="24" r="3.5" fill="#f0c86a"/>
+  </svg>
+</div>
+<div id="cur-trail">☽</div>
+<canvas id="trailC"></canvas>
+
+<!-- ═══ SPACE CANVAS ═══ -->
+<canvas id="spaceC"></canvas>
+
+<!-- ═══ NEBULAE ═══ -->
+<div class="nbl n1"></div>
+<div class="nbl n2"></div>
+<div class="nbl n3"></div>
+<div class="nbl n4"></div>
+<div class="nbl n5"></div>
+<div class="grain"></div>
+
+<!-- ═══════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav id="mainNav">
+  <div class="logo-group">
+    <svg class="logo-sun-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="2"  x2="24" y2="9"  stroke="#d4a843" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="24" y1="39" x2="24" y2="46" stroke="#d4a843" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="2"  y1="24" x2="9"  y2="24" stroke="#d4a843" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="39" y1="24" x2="46" y2="24" stroke="#d4a843" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="8"  y1="8"  x2="13" y2="13" stroke="#d4a843" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="35" y1="35" x2="40" y2="40" stroke="#d4a843" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="40" y1="8"  x2="35" y2="13" stroke="#d4a843" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="13" y1="35" x2="8"  y2="40" stroke="#d4a843" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="24" cy="24" r="8" stroke="#d4a843" stroke-width="1.5" fill="rgba(212,168,67,0.1)"/>
+      <circle cx="24" cy="24" r="4" fill="#d4a843"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <span class="logo-name">Spirilumen</span>
+      <span class="logo-tag">Journey towards light</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#stories">Stories</a></li>
+  </ul>
+  <a href="#consult" class="nav-book">Book a Session</a>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" id="home">
+
+  <!-- Hero Spiral SVG — animated entirely by initHeroSpiral() in animations.js -->
+  <svg id="heroSpiralSvg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+       style="position:absolute;top:0;left:0;pointer-events:none;z-index:1;overflow:visible;">
+    <defs>
+      <filter id="spGlow" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2.8" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <radialGradient id="spFocalGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(216,180,254,0.9)"/>
+        <stop offset="40%"  stop-color="rgba(167,139,250,0.35)"/>
+        <stop offset="100%" stop-color="rgba(109,40,217,0)"/>
+      </radialGradient>
+      <radialGradient id="spMaskGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="50%"  stop-color="white" stop-opacity="1"/>
+        <stop offset="100%" stop-color="white" stop-opacity="0"/>
+      </radialGradient>
+      <mask id="spFadeMask">
+        <rect id="spMaskRect" fill="url(#spMaskGrad)"/>
+      </mask>
+    </defs>
+    <g id="heroSpiralRotGroup" mask="url(#spFadeMask)">
+      <path id="heroSpiralPath"/>
+    </g>
+    <circle id="heroSpiralGlow" r="22" fill="url(#spFocalGrad)" filter="url(#spGlow)" opacity="0"/>
+    <circle id="heroSpiralCore" r="3"  fill="rgba(230,210,255,0.95)" filter="url(#spGlow)" opacity="0"/>
+  </svg>
+
+  <!-- Background wreath + orbital rings -->
+  <div class="hero-emblem">
+    <svg class="emblem-wreath" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"
+         style="width:min(580px,88vw);height:min(580px,88vw);">
+      <g fill="none" stroke="rgba(212,168,67,1)" stroke-width="1.2">
+        <circle cx="250" cy="250" r="230" stroke-dasharray="6 12" opacity=".6"/>
+        <circle cx="250" cy="250" r="200" stroke-dasharray="2 18" opacity=".35"/>
+        <circle cx="250" cy="250" r="80"  opacity=".4"/>
+        <g opacity=".5">
+          <line x1="250" y1="20" x2="250" y2="40"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(30,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(60,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(90,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(120,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(150,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(180,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(210,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(240,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(270,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(300,250,250)"/>
+          <line x1="250" y1="20" x2="250" y2="40" transform="rotate(330,250,250)"/>
+        </g>
+      </g>
+      <g font-family="serif" font-size="16" fill="rgba(212,168,67,0.7)"
+         text-anchor="middle" dominant-baseline="middle">
+        <text transform="rotate(0,250,250)   translate(250,45)">♈</text>
+        <text transform="rotate(30,250,250)  translate(250,45)">♉</text>
+        <text transform="rotate(60,250,250)  translate(250,45)">♊</text>
+        <text transform="rotate(90,250,250)  translate(250,45)">♋</text>
+        <text transform="rotate(120,250,250) translate(250,45)">♌</text>
+        <text transform="rotate(150,250,250) translate(250,45)">♍</text>
+        <text transform="rotate(180,250,250) translate(250,45)">♎</text>
+        <text transform="rotate(210,250,250) translate(250,45)">♏</text>
+        <text transform="rotate(240,250,250) translate(250,45)">♐</text>
+        <text transform="rotate(270,250,250) translate(250,45)">♑</text>
+        <text transform="rotate(300,250,250) translate(250,45)">♒</text>
+        <text transform="rotate(330,250,250) translate(250,45)">♓</text>
+      </g>
+    </svg>
+    <div class="emblem-ring1"></div>
+    <div class="emblem-ring2"></div>
+  </div>
+
+  <!-- Floating planetary symbols — CSS floatPlanetOrbit drives these -->
+  <div class="fp" style="--fa:0deg;  --fr:195px; --fd:20s; --fs:13px;">♄</div>
+  <div class="fp" style="--fa:45deg; --fr:210px; --fd:26s; --fs:11px;">☽</div>
+  <div class="fp" style="--fa:90deg; --fr:185px; --fd:16s; --fs:15px;">✦</div>
+  <div class="fp" style="--fa:135deg;--fr:205px; --fd:22s; --fs:12px;">♃</div>
+  <div class="fp" style="--fa:180deg;--fr:195px; --fd:18s; --fs:14px;">☿</div>
+  <div class="fp" style="--fa:225deg;--fr:200px; --fd:24s; --fs:11px;">♀</div>
+  <div class="fp" style="--fa:270deg;--fr:188px; --fd:19s; --fs:13px;">♂</div>
+  <div class="fp" style="--fa:315deg;--fr:200px; --fd:21s; --fs:12px;">☉</div>
+
+  <div class="hero-content">
+    <h1 class="hero-h">Where Ancient Stars<br>Illuminate Your Sacred Path</h1>
+    <p class="hero-sub">Vedic astrology, sacred healing arts, and transformative learning — the cosmos holds a language spoken uniquely for your soul.</p>
+    <div class="hero-btns">
+      <a href="#services" class="hbp"><span>Explore Sacred Arts</span></a>
+      <a href="#consult"  class="hbs">Book a Session</a>
+    </div>
+    <div class="moon-strip">
+      <span>🌑</span><span>🌒</span><span>🌕</span><span>🌘</span><span>🌑</span>
+    </div>
+  </div>
+
+  <div class="scroll-b">
+    <span>Descend</span>
+    <div class="scroll-p"></div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="mq-wrap">
+  <!-- Populated by initMarqueePopulate() in animations.js -->
+  <div class="mq-track" id="mqT"></div>
+</div>
+
+<!-- ═══ SACRED DIVIDER ═══ -->
+<div class="s-div sw rev">
+  <div class="s-div-l"></div>
+  <div class="s-div-c">
+    <span>☽</span>
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="16" y1="1"  x2="16" y2="7"  stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="16" y1="25" x2="16" y2="31" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="1"  y1="16" x2="7"  y2="16" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="25" y1="16" x2="31" y2="16" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="5"  y1="5"  x2="9"  y2="9"  stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="23" y1="23" x2="27" y2="27" stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="27" y1="5"  x2="23" y2="9"  stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="9"  y1="23" x2="5"  y2="27" stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="5"   stroke="#d4a843" stroke-width="1.3" fill="rgba(212,168,67,0.12)"/>
+      <circle cx="16" cy="16" r="2.5" fill="#d4a843"/>
+    </svg>
+    <span>☾</span>
+  </div>
+  <div class="s-div-l"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ABOUT
+════════════════════════════════════════ -->
+<div class="sw">
+  <div class="about-w" id="about">
+    <div class="about-g">
+
+      <!-- Brand Sphere visual -->
+      <div class="brand-sphere rev">
+        <div class="bs-orb bo1"><div class="bp-dot bd1"></div></div>
+        <div class="bs-orb bo2"><div class="bp-dot bd2"></div></div>
+        <div class="bs-wreath">
+          <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <circle cx="160" cy="160" r="145" stroke="rgba(212,168,67,0.55)" stroke-width="1"   stroke-dasharray="5 10"/>
+            <circle cx="160" cy="160" r="130" stroke="rgba(212,168,67,0.25)" stroke-width="0.7" stroke-dasharray="2 14"/>
+            <g fill="rgba(212,168,67,0.4)" opacity=".7">
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(0,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(30,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(60,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(90,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(120,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(150,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(180,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(210,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(240,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(270,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(300,160,160)"/>
+              <ellipse cx="160" cy="16" rx="4" ry="7" transform="rotate(330,160,160)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="bs-inner">
+          <svg class="bs-sun" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="32" y1="2"  x2="32" y2="13" stroke="#f0c86a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="32" y1="51" x2="32" y2="62" stroke="#f0c86a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="2"  y1="32" x2="13" y2="32" stroke="#f0c86a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="51" y1="32" x2="62" y2="32" stroke="#f0c86a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="10"   y1="10"   x2="17.5" y2="17.5" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="46.5" y1="46.5" x2="54"   y2="54"   stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="54"   y1="10"   x2="46.5" y2="17.5" stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="17.5" y1="46.5" x2="10"   y2="54"   stroke="#f0c86a" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="10" stroke="#f0c86a" stroke-width="1.8" fill="rgba(240,200,106,0.15)"/>
+            <circle cx="32" cy="32" r="5"  fill="#f0c86a"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- About copy -->
+      <div>
+        <span class="sl rev">The Practice</span>
+        <h2 class="sh rev">A Lineage of<br><em>Sacred Knowledge</em></h2>
+        <p class="about-desc rev" style="transition-delay:.2s">
+          Rooted in the ancient Vedic tradition, Spirilumen bridges <em>timeless astronomical wisdom</em> with the lived texture of modern life. Every reading, every healing, every teaching is a sacred dialogue between the cosmos and your deepest truth.
+        </p>
+        <p class="about-desc rev" style="transition-delay:.3s;margin-top:16px;">
+          Whether you seek clarity in relationships, career, purpose, or spiritual growth — the stars hold <em>a map written for you alone</em>. We illuminate the path so you can walk it with grace.
+        </p>
+        <div class="stats-row rev" style="transition-delay:.4s">
+          <div class="stat"><span class="stat-n">12+</span><span class="stat-l">Years of Practice</span></div>
+          <div class="stat"><span class="stat-n">2K+</span><span class="stat-l">Souls Guided</span></div>
+          <div class="stat"><span class="stat-n">5</span>  <span class="stat-l">Sacred Arts</span></div>
+          <div class="stat"><span class="stat-n">∞</span>  <span class="stat-l">Cosmic Wisdom</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SERVICES
+════════════════════════════════════════ -->
+<div class="sw" id="services">
+  <div class="svc-w">
+    <div class="svc-hdr">
+      <span class="sl rev">What We Offer</span>
+      <h2 class="sh rev">Sacred Arts of <em>Spirilumen</em></h2>
+    </div>
+
+    <!-- Top row — 3 cards -->
+    <div class="svc-g">
+      <div class="svc-c rev" id="sc1" data-href="astrology.html" style="cursor:pointer;">
+        <span class="svc-ic">♄</span>
+        <span class="svc-nm">01 · Astrology</span>
+        <h3 class="svc-name">Vedic Astrology</h3>
+        <p class="svc-desc">The mother science of the Vedas — a precise celestial map of your soul's journey, karmic patterns, and life purpose encoded at your birth.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Birth Chart</span>
+          <span class="svc-tag">Dasha Reading</span>
+          <span class="svc-tag">Compatibility</span>
+          <span class="svc-tag">Career Guidance</span>
+        </div>
+        <a href="astrology.html" class="svc-lnk">Begin Reading →</a>
+      </div>
+
+      <div class="svc-c rev d1" id="sc2">
+        <span class="svc-ic">✧</span>
+        <span class="svc-nm">02 · Healing</span>
+        <h3 class="svc-name">Healing Arts</h3>
+        <p class="svc-desc">Ancient energy practices to restore harmony across body, mind, and spirit — Reiki and meditation that awaken your innate capacity to heal.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Guided Meditation</span>
+          <span class="svc-tag">Reiki Healing</span>
+          <span class="svc-tag">Chakra Balancing</span>
+          <span class="svc-tag">Distance Healing</span>
+        </div>
+        <a href="#consult" class="svc-lnk">Explore Healing →</a>
+      </div>
+
+      <div class="svc-c rev d2" id="sc3">
+        <span class="svc-ic">☽</span>
+        <span class="svc-nm">03 · Tarot</span>
+        <h3 class="svc-name">Tarot Reading</h3>
+        <p class="svc-desc">The cards mirror the soul's inner knowing. Each spread illuminates energies at play and the deeper wisdom your higher self already holds.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Celtic Cross</span>
+          <span class="svc-tag">Monthly Guidance</span>
+          <span class="svc-tag">Relationship Spread</span>
+          <span class="svc-tag">Clarity Reading</span>
+        </div>
+        <a href="#consult" class="svc-lnk">Reveal Cards →</a>
+      </div>
+    </div>
+
+    <!-- Bottom row — 2 wider cards -->
+    <div class="svc-g2">
+      <div class="svc-c rev" id="sc4">
+        <span class="svc-ic">◈</span>
+        <span class="svc-nm">04 · Coaching</span>
+        <h3 class="svc-name">Life Coaching &amp; Law of Attraction</h3>
+        <p class="svc-desc">Consciousness-based coaching integrating Vedic principles with the universal laws of manifestation — helping you architect the life your soul is calling forward.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">1:1 Coaching</span>
+          <span class="svc-tag">Law of Attraction</span>
+          <span class="svc-tag">Manifestation Mapping</span>
+          <span class="svc-tag">Vision Clarity</span>
+        </div>
+        <a href="#consult" class="svc-lnk">Start Your Journey →</a>
+      </div>
+
+      <div class="svc-c rev d1" id="sc5">
+        <span class="svc-ic">⟡</span>
+        <span class="svc-nm">05 · Learning</span>
+        <h3 class="svc-name">Sacred Learning</h3>
+        <p class="svc-desc">Immersive courses to awaken your intuitive gifts — from beginner foundations to advanced practitioner mastery in the ancient sacred arts.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Tarot Certification</span>
+          <span class="svc-tag">Vedic Foundations</span>
+          <span class="svc-tag">Meditation Training</span>
+          <span class="svc-tag">Group Cohorts</span>
+        </div>
+        <a href="#consult" class="svc-lnk">Learn &amp; Awaken →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DIVIDER ═══ -->
+<div class="s-div sw rev">
+  <div class="s-div-l"></div>
+  <div class="s-div-c">
+    <span style="font-family:serif;font-size:16px;color:var(--gold);opacity:.6;">✦</span>
+  </div>
+  <div class="s-div-l"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROCESS
+════════════════════════════════════════ 
+<div class="sw">
+  <div class="proc-w" id="journey">
+    <span class="sl rev">Your Journey</span>
+    <h2 class="sh rev">How the <em>Light Finds You</em></h2>
+    <div class="proc-steps">
+      <div class="ps rev">
+        <div class="ps-num">I</div>
+        <h3 class="ps-t">Reach Out</h3>
+        <p class="ps-d">Share your intention — what you seek, question, or feel called to understand. Every journey begins with a single word toward light.</p>
+      </div>
+      <div class="ps rev d1">
+        <div class="ps-num">II</div>
+        <h3 class="ps-t">Free Discovery</h3>
+        <p class="ps-d">A complimentary 20-minute call to align your needs with the right sacred path — reading, healing, coaching, or learning.</p>
+      </div>
+      <div class="ps rev d2">
+        <div class="ps-num">III</div>
+        <h3 class="ps-t">Sacred Session</h3>
+        <p class="ps-d">Your personalised session — conducted with care, precision, and sacred intention, whether in person or through the digital ether.</p>
+      </div>
+      <div class="ps rev d3">
+        <div class="ps-num">IV</div>
+        <h3 class="ps-t">Integration</h3>
+        <p class="ps-d">Receive recorded insights, written materials, and continued support to anchor and embody what has been revealed to you.</p>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<!-- ═══════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════ -->
+<div class="sw tst-w" id="stories">
+  <div class="tst-i">
+    <div class="tst-hdr">
+      <span class="sl rev">Client Voices</span>
+      <h2 class="sh rev">Stories of <em>Transformation</em></h2>
+    </div>
+    <div class="tst-g">
+      <div class="tc rev">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">The Vedic reading left me speechless. It mapped patterns I had never been able to articulate — I finally understood why I kept making the same choices, and how to truly change them.</p>
+        <div class="tc-a">
+          <div class="ta-av">P</div>
+          <div><div class="ta-n">Priya M.</div><div class="ta-r">Vedic Astrology Reading</div></div>
+        </div>
+      </div>
+      <div class="tc rev d1">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">Three Reiki sessions and I felt like I had shed weight I had been carrying for years. The approach is deeply intuitive — it goes exactly where it needs to, without being told.</p>
+        <div class="tc-a">
+          <div class="ta-av">S</div>
+          <div><div class="ta-n">Samantha L.</div><div class="ta-r">Reiki Healing</div></div>
+        </div>
+      </div>
+      <div class="tc rev d2">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">The tarot certification completely changed how I see this practice. It is a language of the soul. I now read for others with real depth and confidence I did not know I had.</p>
+        <div class="tc-a">
+          <div class="ta-av">A</div>
+          <div><div class="ta-n">Asha R.</div><div class="ta-r">Tarot Certification</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CTA
+════════════════════════════════════════ 
+<div class="sw cta-w" id="consult">
+  <div class="cta-rings">
+    <div class="cr cr1"></div>
+    <div class="cr cr2"></div>
+    <div class="cr cr3"></div>
+    <div class="cr cr4"></div>
+  </div>
+  <div class="cta-in">
+    <div class="cta-brand-lock rev">
+      <svg class="cta-sun-sm" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="24" y1="2"  x2="24" y2="10" stroke="#f0c86a" stroke-width="2"   stroke-linecap="round"/>
+        <line x1="24" y1="38" x2="24" y2="46" stroke="#f0c86a" stroke-width="2"   stroke-linecap="round"/>
+        <line x1="2"  y1="24" x2="10" y2="24" stroke="#f0c86a" stroke-width="2"   stroke-linecap="round"/>
+        <line x1="38" y1="24" x2="46" y2="24" stroke="#f0c86a" stroke-width="2"   stroke-linecap="round"/>
+        <line x1="7.5"  y1="7.5"  x2="12.5" y2="12.5" stroke="#f0c86a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="35.5" y1="35.5" x2="40.5" y2="40.5" stroke="#f0c86a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="40.5" y1="7.5"  x2="35.5" y2="12.5" stroke="#f0c86a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="12.5" y1="35.5" x2="7.5"  y2="40.5" stroke="#f0c86a" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="7"   stroke="#f0c86a" stroke-width="1.5" fill="rgba(240,200,106,0.1)"/>
+        <circle cx="24" cy="24" r="3.5" fill="#f0c86a"/>
+      </svg>
+      <span class="cta-brand-name">Spirilumen</span>
+    </div>
+    <h2 class="cta-h rev">Your Stars Are<em>Already Speaking</em></h2>
+    <p class="cta-sub rev">Book a free 20-minute discovery call, or receive celestial insights directly to your inbox — the first step is simply turning toward the light.</p>
+    <div class="cta-form rev">
+      <input class="cta-inp" type="email" placeholder="Your email address">
+      <button class="cta-btn">Receive Insights</button>
+    </div>
+    <p class="cta-note rev">Or <a href="mailto:hello@spirilumen.com">email directly</a> to book your session</p>
+  </div>
+</div>-->
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="ft-gbar"></div>
+  <div class="ft-g">
+    <div class="ft-brand">
+      <div class="ftlogo">
+        <svg class="ft-sun" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="16" y1="1"  x2="16" y2="7"  stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="25" x2="16" y2="31" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1"  y1="16" x2="7"  y2="16" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="25" y1="16" x2="31" y2="16" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="5"  y1="5"  x2="9"  y2="9"  stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="23" y1="23" x2="27" y2="27" stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="27" y1="5"  x2="23" y2="9"  stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="9"  y1="23" x2="5"  y2="27" stroke="#d4a843" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="5"   stroke="#d4a843" stroke-width="1.2" fill="rgba(212,168,67,0.1)"/>
+          <circle cx="16" cy="16" r="2.5" fill="#d4a843"/>
+        </svg>
+        <span class="ft-name">Spirilumen</span>
+      </div>
+      <span class="ft-tag-sm">Journey towards light</span>
+      <p>Ancient wisdom for the modern seeker. Where Vedic astrology, sacred healing, and transformative learning converge — illuminating the path toward your truest self.</p>
+      <div class="ft-syms">☽ ✦ ☾ ♄ ☉</div>
+    </div>
+    <div class="ft-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#">Vedic Astrology</a></li>
+        <li><a href="#">Tarot Reading</a></li>
+        <li><a href="#">Reiki Healing</a></li>
+        <li><a href="#">Meditation</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Learn</h5>
+      <ul>
+        <li><a href="#">Life Coaching</a></li>
+        <li><a href="#">Law of Attraction</a></li>
+        <li><a href="#">Tarot Certification</a></li>
+        <li><a href="#">Astrology Course</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Book a Call</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-btm">
+    <p>© 2025 Spirilumen. All rights reserved.</p>
+    <p>Crafted with <span class="fts">✦</span> and sacred intention</p>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS — load after DOM ═══ -->
+<script src="animations.js"></script>
+
+</body>
+</html>
