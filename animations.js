@@ -138,19 +138,21 @@ function initStarfieldCanvas() {
 function initCustomCursorSun() {
   const sunEl = document.getElementById('cur-sun');
   if (!sunEl) return;
-
-  /* Skip entirely on touch devices — no real cursor exists */
+ 
   if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
     sunEl.style.display = 'none';
     return;
   }
-
+ 
+  /* Hide default system cursor site-wide */
+  document.documentElement.style.cursor = 'none';
+ 
   document.addEventListener('mousemove', e => {
     sunEl.style.left = e.clientX + 'px';
     sunEl.style.top  = e.clientY + 'px';
   });
 }
-
+ 
 
 /* ============================================================
    3. CURSOR TRAIL FOLLOWER
@@ -161,22 +163,21 @@ function initCustomCursorSun() {
 function initCursorTrailFollower() {
   const trailEl = document.getElementById('cur-trail');
   if (!trailEl) return;
-
-  /* Skip on touch devices */
+ 
   if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
     trailEl.style.display = 'none';
     return;
   }
-
+ 
   let mouseX = 0, mouseY = 0;
   let lagX   = 0, lagY   = 0;
-  const LERP = 0.08; // lower = more lag
-
+  const LERP = 0.08; // lower = more lag / softer follow
+ 
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
-
+ 
   function tick() {
     lagX += (mouseX - lagX) * LERP;
     lagY += (mouseY - lagY) * LERP;
@@ -184,11 +185,10 @@ function initCursorTrailFollower() {
     trailEl.style.top  = lagY + 'px';
     requestAnimationFrame(tick);
   }
-
+ 
   tick();
 }
-
-
+ 
 /* ============================================================
    4. PARTICLE TRAIL CANVAS
    On every mousemove, emits 1–3 particles that drift upward
@@ -336,32 +336,33 @@ function initCursorHoverStates() {
   const sunEl   = document.getElementById('cur-sun');
   const trailEl = document.getElementById('cur-trail');
   if (!sunEl || !trailEl) return;
-
-  /* Skip on touch devices */
+ 
   if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
-
+ 
   const SELECTOR = 'a, button, .svc-c, .tc, .stat, .ps, .moon-strip span, .nav-book';
-
-  function onEnter() {
-    sunEl  .classList.add('hov');
+ 
+  function applyHover() {
+    sunEl.classList.add('hov');
     trailEl.classList.add('hov');
     trailEl.textContent = '☾';
   }
-
-  function onLeave() {
-    sunEl  .classList.remove('hov');
+ 
+  function removeHover() {
+    sunEl.classList.remove('hov');
     trailEl.classList.remove('hov');
     trailEl.textContent = '☽';
   }
-
-  /* Attach to elements present at load time */
-  document.querySelectorAll(SELECTOR).forEach(el => {
-    el.addEventListener('mouseenter', onEnter);
-    el.addEventListener('mouseleave', onLeave);
+ 
+  /* Delegated — fires for any matching element, present or future */
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest(SELECTOR)) applyHover();
+  });
+ 
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest(SELECTOR)) removeHover();
   });
 }
-
-
+ 
 /* ============================================================
    6. HERO SPIRAL
    Builds an Archimedean spiral path in SVG, then:
