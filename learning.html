@@ -506,6 +506,17 @@ document.querySelectorAll('.pg-tab-pill').forEach(pill=>{
   });
 });
 
+/* ── DEEP LINK: activate correct tab when arriving via #tab-courses / #tab-coaching ── */
+function activateTabFromHash(){
+  const tab = window.location.hash.replace('#tab-','');
+  if(document.querySelector(`.tab-btn[data-tab="${tab}"]`)){
+    document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.click();
+    document.getElementById('packages')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+window.addEventListener('DOMContentLoaded', activateTabFromHash);
+window.addEventListener('hashchange', activateTabFromHash);
+
 /* ── NAV ── */
 const nav=document.getElementById('mainNav');
 window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>55),{passive:true});
