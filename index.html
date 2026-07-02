@@ -225,8 +225,8 @@
         <h3 class="svc-name">Astrology</h3>
         <p class="svc-desc">Ancient celestial wisdom that maps your soul's journey, karmic patterns, and life purpose through the sacred language of the stars.</p>
         <div class="svc-tags">
-          <span class="svc-tag">Energy Readingy</span>
-          <span class="svc-tag">Vedic Astrology</span>
+          <span class="svc-tag" data-tag-href="astrology.html#tab-energy">Energy Reading</span>
+          <span class="svc-tag" data-tag-href="astrology.html#tab-vedic">Vedic Astrology</span>
         </div>
         <a href="astrology.html" class="svc-lnk">Begin Reading →</a>
       </div>
@@ -237,8 +237,8 @@
         <h3 class="svc-name">Healing</h3>
         <p class="svc-desc">Energy practices that restore harmony across body, mind, and spirit — awakening your innate capacity to heal and be whole.</p>
         <div class="svc-tags">
-          <span class="svc-tag">Meditation</span>
-          <span class="svc-tag">Reiki</span>
+          <span class="svc-tag" data-tag-href="healing.html#tab-meditation">Meditation</span>
+          <span class="svc-tag" data-tag-href="healing.html#tab-reiki">Reiki</span>
         </div>
         <a href="healing.html" class="svc-lnk">Explore Healing →</a>
       </div>
@@ -249,10 +249,9 @@
         <h3 class="svc-name">Learning</h3>
         <p class="svc-desc">Immersive teachings in the sacred arts — from foundational wisdom to advanced practitioner mastery, guided by ancient lineage.</p>
         <div class="svc-tags">
-          <span class="svc-tag">Law of Attraction</span>
-          <span class="svc-tag">Meditation</span>
-          <span class="svc-tag">Tarot Reading</span>
-          <span class="svc-tag">Enlightened Happiness</span>
+          <span class="svc-tag" data-tag-href="learning.html#tab-courses">Law of Attraction</span>
+          <span class="svc-tag" data-tag-href="learning.html#tab-courses">Meditation</span>
+          <span class="svc-tag" data-tag-href="learning.html#tab-courses">+2 more</span>
         </div>
         <a href="learning.html" class="svc-lnk">Reveal Path →</a>
       </div>
@@ -506,6 +505,16 @@
 <!-- ═══ SCRIPTS — load after DOM ═══ -->
 <script src="animations.js"></script>
 <script src="booking-modal.js"></script>
+<script>
+/* ── CLICKABLE SERVICE TAG BADGES → deep-link to relevant tab ── */
+document.querySelectorAll('.svc-tag[data-tag-href]').forEach(tag => {
+  tag.style.cursor = 'pointer';
+  tag.addEventListener('click', e => {
+    e.stopPropagation(); /* don't trigger the parent card's default link */
+    window.location.href = tag.dataset.tagHref;
+  });
+});
+</script>
 
 </body>
 </html>
