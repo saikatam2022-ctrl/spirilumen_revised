@@ -670,6 +670,7 @@
   <div class="pg-hero-tabs">
     <a href="#tab-energy" class="pg-tab-pill" id="pill-energy">☽ Energy Reading</a>
     <a href="#tab-vedic" class="pg-tab-pill active" id="pill-vedic">♄ Vedic Astrology</a>
+    <a href="#tab-tarot" class="pg-tab-pill" id="pill-tarot">🃏 Tarot Reading</a>
   </div>
 </section>
 
@@ -695,6 +696,7 @@
     <div class="tab-nav">
       <button class="tab-btn"        data-tab="energy" id="energy-tab-btn">☽ Energy Reading</button>
       <button class="tab-btn active" data-tab="vedic">♄ Vedic Astrology</button>
+      <button class="tab-btn"        data-tab="tarot" id="tarot-tab-btn">🃏 Tarot Reading</button>
     </div>
 
     
@@ -1044,6 +1046,68 @@
 
     </div><!-- /tab-vedic -->
 
+    <!-- ════════════════════════════════
+         TAROT READING TAB
+    ════════════════════════════════ -->
+    <div class="tab-panel" id="tab-tarot">
+
+      <div class="tab-section-hdr" id="tarot">
+        <span class="sl rev">Tarot Sessions</span>
+        <h3 class="sh rev" style="font-size:clamp(20px,2.8vw,34px);">Uncover the Story <em>the Cards Hold</em></h3>
+      </div>
+
+      <div class="svc-grid">
+        <div class="sc rev">
+          <span class="sc-level basic">✦ Foundation</span>
+          <span class="sc-ic">🃏</span>
+          <h4 class="sc-name">Awaken</h4>
+          <p class="sc-desc">A focused Tarot session designed to bring clarity to your most pressing question. Whether you seek guidance on love, career, or a current challenge, this reading offers intuitive insight and gentle direction, helping you reconnect with your inner wisdom and take your next step with confidence.</p>
+          <ul class="sc-includes">
+            <li>One focused question or life area</li>
+            <li>Current energies &amp; underlying influences</li>
+            <li>Challenges, opportunities &amp; hidden insights</li>
+            <li>Clear guidance for your next steps</li>
+            <li>20-minute live or recorded session</li>
+          </ul>
+          <div class="sc-price"><span class="sc-price-val">₹750</span><span class="sc-price-dur">/ session</span></div>
+          <a href="#book" class="sc-lnk">Book Now →</a>
+        </div>
+
+        <div class="sc rev d1">
+          <span class="sc-level basic">✦ Foundation</span>
+          <span class="sc-ic">🃏</span>
+          <h4 class="sc-name">Align</h4>
+          <p class="sc-desc">A deeper exploration of your life's journey, uncovering the energies, patterns, and opportunities shaping your path. This session provides space to examine multiple areas of your life, offering meaningful guidance that helps you align your decisions with your authentic purpose and highest good.</p>
+          <ul class="sc-includes">
+            <li>Up to three focused questions or life areas</li>
+            <li>Recurring patterns &amp; energetic influences</li>
+            <li>Opportunities, obstacles &amp; practical insights</li>
+            <li>Personalized guidance for alignment and growth</li>
+            <li>40-minute live or recorded session</li>
+          </ul>
+          <div class="sc-price"><span class="sc-price-val">₹1,200</span><span class="sc-price-dur">/ session</span></div>
+          <a href="#book" class="sc-lnk">Book Now →</a>
+        </div>
+
+        <div class="sc rev d2">
+          <span class="sc-level basic">✦ Foundation</span>
+          <span class="sc-ic">🃏</span>
+          <h4 class="sc-name">Ascend</h4>
+          <p class="sc-desc">An immersive Tarot experience for profound self-discovery and spiritual growth. Together, we explore your soul's journey, life purpose, relationships, challenges, and future possibilities. This extended session offers comprehensive guidance, empowering you with clarity, healing, and a renewed sense of direction.</p>
+          <ul class="sc-includes">
+            <li>Multiple life areas or comprehensive Tarot reading</li>
+            <li>Soul themes &amp; recurring life patterns</li>
+            <li>Present challenges &amp; future possibilities</li>
+            <li>Empowering guidance for your path ahead</li>
+            <li>60-minute live or recorded session</li>
+          </ul>
+          <div class="sc-price"><span class="sc-price-val">₹1,500</span><span class="sc-price-dur">/ session</span></div>
+          <a href="#book" class="sc-lnk">Book Now →</a>
+        </div>
+      </div>
+
+    </div><!-- /tab-tarot -->
+
   </div><!-- /pkgs-w -->
 </div>
 
@@ -1342,7 +1406,7 @@ document.querySelectorAll('a[href="#energy"]').forEach(a=>{
 /* ── DEEP LINK: activate correct tab when arriving via #tab-energy / #tab-vedic ── */
 function activateTabFromHash(){
   const tab = window.location.hash.replace('#tab-','');
-  if(tab === 'energy' || tab === 'vedic'){
+  if(tab === 'energy' || tab === 'vedic' || tab === 'tarot'){
     document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.click();
     document.getElementById('vedic')?.scrollIntoView({behavior:'smooth',block:'start'});
   }
