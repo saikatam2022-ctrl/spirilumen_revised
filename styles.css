@@ -1607,3 +1607,29 @@ footer {
   .bo1 { width: 260px; height: 260px; }
   .bo2 { width: 300px; height: 300px; }
 }
+
+/* ── DISCOUNT PRICING (injected by discount-loader.js) ── */
+.sc-price-strike {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--muted);
+  text-decoration: line-through;
+  opacity: .7;
+  margin-right: 6px;
+}
+.sc-price-now {
+  color: var(--gold);
+}
+.sc-price-badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--p2), var(--gold));
+  border-radius: 20px;
+  vertical-align: middle;
+}
